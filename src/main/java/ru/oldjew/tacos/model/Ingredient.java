@@ -1,13 +1,20 @@
 package ru.oldjew.tacos.model;
 
-import lombok.Data;
+import lombok.*;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Data
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Ingredient {
 
-    private final String id;
-    private final String name;
-    private final Type type;
+    @Id
+    private String id;
+    private String name;
+    private Type type;
 
     public enum Type {
         WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
