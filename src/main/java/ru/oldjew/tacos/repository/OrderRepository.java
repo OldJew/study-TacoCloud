@@ -1,8 +1,11 @@
 package ru.oldjew.tacos.repository;
 
+import org.springframework.data.repository.CrudRepository;
 import ru.oldjew.tacos.model.TacoOrder;
 
-public interface OrderRepository {
+import java.util.List;
 
-    TacoOrder save(TacoOrder tacoOrder);
+public interface OrderRepository extends CrudRepository<TacoOrder, Long> {
+
+    List<TacoOrder> findByDeliveryZip(String deliveryZip);
 }

@@ -1,14 +1,8 @@
 package ru.oldjew.tacos.repository;
 
+import org.springframework.data.repository.CrudRepository;
 import ru.oldjew.tacos.model.Ingredient;
 
-import java.util.Optional;
+public interface IngredientRepository extends CrudRepository<Ingredient, String> {
 
-public interface IngredientRepository {
-
-    Iterable<Ingredient> findAll();
-
-    Optional<Ingredient> findById(String id);
-
-    Ingredient save(Ingredient ingredient);
 }
