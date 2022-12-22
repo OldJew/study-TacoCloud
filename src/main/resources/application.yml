@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    name: tacocloud
+    generate-unique-name: false
+
+  data:
+    cassandra:
+      keyspace-name: tacocloud
+      schema-action: recreate
+      local-datacenter: datacenter1

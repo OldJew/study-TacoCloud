@@ -10,6 +10,7 @@ import ru.oldjew.tacos.model.Ingredient;
 import ru.oldjew.tacos.model.Taco;
 import ru.oldjew.tacos.model.Ingredient.Type;
 import ru.oldjew.tacos.model.TacoOrder;
+import ru.oldjew.tacos.model.TacoUDT;
 import ru.oldjew.tacos.repository.IngredientRepository;
 
 import javax.validation.Valid;
@@ -70,13 +71,14 @@ public class DesignTacoController {
         return "design";
     }
 
-    @PostMapping
+    @PostMapping()
     public String processTaco(@Valid Taco taco, Errors errors,
                               @ModelAttribute TacoOrder tacoOrder){
         if (errors.hasErrors()){
             return "design";
         }
-        tacoOrder.addTaco(taco);
+        TacoUDT tacoUDT = new TacoUDT(taco.getName(), taco.getIngredients());
+        tacoOrder.addTaco(tacoUDT);
         log.info("Processing taco: {}", taco);
 
         return "redirect:/orders/current";

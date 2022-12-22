@@ -1,23 +1,33 @@
 package ru.oldjew.tacos.model;
 
+import com.datastax.oss.driver.api.core.uuid.Uuids;
+import lombok.AccessLevel;
 import lombok.Data;
-import ru.oldjew.tacos.repository.IngredientRef;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.cassandra.core.cql.Ordering;
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
+import org.springframework.data.cassandra.core.mapping.Table;
+import ru.oldjew.tacos.Utils.TacoUDRUtils;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
-@Entity
+@Table("tacos")
 public class Taco {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED)
+    private UUID id = Uuids.timeBased();
 
+    @PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED,
+                      ordering = Ordering.DESCENDING)
     private Date createdAt = new Date();
 
     @NotNull
@@ -26,15 +36,10 @@ public class Taco {
 
     @NotNull
     @Size(min = 1, message = "You must choose at least 1 ingredient")
-    @ManyToMany
-    private List<Ingredient> ingredients;
+    @Column("ingredients")
+    private List<IngredientUDT> ingredients = new ArrayList<>();
 
-
-    public List<IngredientRef> getIngredientRefs(){
-        List<IngredientRef> ingredientRefs = new ArrayList<>();
-        for (Ingredient ingredient : ingredients){
-            ingredientRefs.add(new IngredientRef(ingredient.getId()));
-        }
-        return ingredientRefs;
+    public void addIngredient(Ingredient ingredient){
+        this.ingredients.add(TacoUDRUtils.toIngredientUDT(ingredient));
     }
 }
