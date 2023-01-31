@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.com">
+<head>
+    <meta charset="UTF-8">
+    <title>Taco Cloud</title>
+</head>
+<body>
+
+    <ul th:object="${orders}">
+        <li th:each="order : ${orders}">
+            <span th:text="${order.tacos.size}"></span>
+        </li>
+    </ul>
+</body>
+</html>

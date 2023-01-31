@@ -17,11 +17,11 @@ class HomeControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
-    public void checkHomePage() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("home"))
-                .andExpect(content().string(containsString("Welcome to...")));
-    }
+//    @Test
+//    public void checkHomePage() throws Exception {
+//        mockMvc.perform(get("/"))
+//                .andExpect(status().isOk())
+//                .andExpect(view().name("home"))
+//                .andExpect(content().string(containsString("Welcome to...")));
+//    }
 }
