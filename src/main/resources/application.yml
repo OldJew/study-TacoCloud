@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    name: tacocloud
+    generate-unique-name: false
+  main:
+    allow-bean-definition-overriding: false
+
+taco:
+  orders:
+    page-size: 20
+

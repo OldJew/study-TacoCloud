@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    name: tacocloud
+    generate-unique-name: false
+taco:
+  orders:
+    page-size: 25
+
+logging:
+  level:
+    tacos: warn

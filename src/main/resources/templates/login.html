@@ -5,26 +5,26 @@
     <title>Taco Cloud</title>
 </head>
 <body>
-    <h1>Login</h1>
-    <img th:src="@{/images/TacoCloud.png}">
+<h1>Login</h1>
+<img th:src="@{/images/TacoCloud.png}">
 
-    <div th:if="${error}">
-        <p>Unable to login. Check username & password</p>
-    </div>
+<div th:if="${error}">
+    <p>Unable to login. Check username & password</p>
+</div>
 
-    <p>New here? Click
-        <a th:href="@{/registration}">here </a>to register</p>
+<p>New here? Click
+    <a th:href="@{/registration}">here </a>to register</p>
 
-    <form method="post" th:action="@{/login}" id="loginForm">
-        <label for="username">Username: </label>
-        <input type="text" name="username"/><br/>
+<form method="post" th:action="@{/login}" id="loginForm">
+    <label for="username">Username: </label>
+    <input type="text" name="username"/><br/>
 
-        <label for="password">Password: </label>
-        <input type="password" name="password"/><br/>
+    <label for="password">Password: </label>
+    <input type="password" name="password"/><br/>
 
-        <input type="submit" value="login"/>
-    </form>
+    <input type="submit" value="login"/>
+</form>
 
-    <a th:href="@{/}">Return to homepage</a>
+<a th:href="@{/}">Return to homepage</a>
 </body>
 </html>
