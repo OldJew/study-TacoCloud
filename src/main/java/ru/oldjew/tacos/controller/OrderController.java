@@ -9,10 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.oldjew.tacos.model.TacoOrder;
 import ru.oldjew.tacos.model.User;
@@ -60,9 +57,43 @@ public class OrderController {
             return "orderForm";
         }
         tacoOrder.setUser(user);
+        tacoOrder.getTacos().forEach(
+                taco -> log.info("saving taco :" + taco.getName()));
+
         orderRepository.save(tacoOrder);
         log.info("Order submited: {}", tacoOrder.toString());
         sessionStatus.setComplete();
         return "redirect:/";
+    }
+
+    @PatchMapping(path = "/{orderId}", consumes = "application/json")
+    @ResponseBody
+    public TacoOrder patchOrder(@PathVariable("orderId") Long orderId,
+                                @RequestBody TacoOrder patch){
+        TacoOrder order = orderRepository.findById(orderId).get();
+
+        if (patch.getDeliveryState() != null){
+            order.setDeliveryState(patch.getDeliveryState());
+        }
+        if (patch.getDeliveryCity() != null){
+            order.setDeliveryCity(patch.getDeliveryCity());
+        }
+        if (patch.getDeliveryStreet() != null){
+            order.setDeliveryStreet(patch.getDeliveryStreet());
+        }
+        if (patch.getDeliveryZip() != null){
+            order.setDeliveryZip(patch.getDeliveryZip());
+        }
+        if (patch.getCcNumber() != null){
+            order.setCcNumber(patch.getCcNumber());
+        }
+        if (patch.getCcExpiration() != null){
+            order.setCcExpiration(patch.getCcExpiration());
+        }
+        if (patch.getCcCVV() != null){
+            order.setCcCVV(patch.getCcCVV());
+        }
+
+        return orderRepository.save(order);
     }
 }

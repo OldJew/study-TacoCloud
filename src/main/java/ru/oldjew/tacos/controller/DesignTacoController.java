@@ -11,6 +11,7 @@ import ru.oldjew.tacos.model.Taco;
 import ru.oldjew.tacos.model.Ingredient.Type;
 import ru.oldjew.tacos.model.TacoOrder;
 import ru.oldjew.tacos.repository.IngredientRepository;
+import ru.oldjew.tacos.repository.TacoRepository;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -24,30 +25,17 @@ import java.util.stream.Stream;
 public class DesignTacoController {
 
     private final IngredientRepository ingredientRepository;
+    private final TacoRepository tacoRepository;
 
-    @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepository) {
+    public DesignTacoController(IngredientRepository ingredientRepository, TacoRepository tacoRepository) {
         this.ingredientRepository = ingredientRepository;
+        this.tacoRepository = tacoRepository;
     }
 
     @ModelAttribute
     public void addIngredientsToModel(Model model){
         List<Ingredient> ingredientsList = new ArrayList<>();
         ingredientRepository.findAll().forEach(ingredient -> ingredientsList.add(ingredient));
-        /*
-        List<Ingredient> ingredients= Arrays.asList(
-                new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.WRAP),
-                new Ingredient("COTO", "Corn Tortilla", Type.WRAP),
-                new Ingredient("GRBF", "Ground Beef", Type.PROTEIN),
-                new Ingredient("CARN", "Carnitas", Type.PROTEIN),
-                new Ingredient("TMTO", "Diced Tomatoes", Type.VEGGIES),
-                new Ingredient("LETC", "Lettuce", Type.VEGGIES),
-                new Ingredient("CHED", "Cheddar", Type.CHEESE),
-                new Ingredient("JACK", "Monterrey Jack", Type.CHEESE),
-                new Ingredient("SLSA", "Salsa", Type.SAUCE),
-                new Ingredient("SRCR", "Sour Cream", Type.SAUCE)
-                );
-        */
         Type[] types = Ingredient.Type.values();
         for (Type type : types){
             model.addAttribute(type.toString().toLowerCase(),
@@ -78,6 +66,7 @@ public class DesignTacoController {
         }
         tacoOrder.addTaco(taco);
         log.info("Processing taco: {}", taco);
+
 
         return "redirect:/orders/current";
     }
