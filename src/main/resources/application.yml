@@ -4,8 +4,16 @@ spring:
     generate-unique-name: false
   main:
     allow-bean-definition-overriding: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+         jwk-set-uri: http://localhost:9000/oauth2/jwks
 
 taco:
   orders:
     page-size: 20
 
+logging:
+  level:
+    org.springframework.security.web: DEBUG

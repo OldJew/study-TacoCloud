@@ -2,8 +2,10 @@ package ru.oldjew.tacos.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import ru.oldjew.tacos.model.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,14 +37,24 @@ public class SecurityConfig {
         return http
                 .authorizeRequests()
                 .antMatchers("/design","/orders*").hasRole("USER")
-                .antMatchers("/h2-console", "/","/**").permitAll()
+                .antMatchers("/h2-console/**", "/","/**", "/api/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/ingredients").
+                    hasAuthority("SCOPE_writeIngredients")
+                .antMatchers(HttpMethod.DELETE, "/api/ingredients")
+                    .hasAuthority("SCOPE_deleteIngredients")
                 .and()
                 .formLogin()
                 .loginPage("/login")
 //                .defaultSuccessUrl("/", true)
                 .and()
+                    .csrf()
+                    .ignoringAntMatchers("/h2-console/**")
+                .and()
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt())
                 .logout()
                 .logoutSuccessUrl("/")
+                .and()
+                .headers().frameOptions().sameOrigin()
                 .and()
                 .build();
     }

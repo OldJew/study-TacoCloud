@@ -30,6 +30,16 @@ public class Taco {
     private List<Ingredient> ingredients;
 
 
+    public Taco setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Taco setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+        return this;
+    }
+
     public List<IngredientRef> getIngredientRefs(){
         List<IngredientRef> ingredientRefs = new ArrayList<>();
         for (Ingredient ingredient : ingredients){
